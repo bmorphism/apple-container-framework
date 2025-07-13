@@ -1,0 +1,14 @@
+;; Default service template
+{:container {:name "{{service-name}}"
+             :image "{{image-name}}"
+             :resources {:cpu 2
+                        :memory "4g"
+                        :storage "20GB"}}
+ :health {:checks [:basic-connectivity]
+          :interval 30
+          :recovery-strategy :restart}
+ :performance {:monitoring-enabled true
+              :benchmark-workloads [:startup :memory-efficiency]}
+ :state {:snapshots-enabled false}
+ :apple-silicon {:optimizations {:vm-per-container true
+                                :hardware-acceleration true}}}

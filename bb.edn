@@ -1,0 +1,25 @@
+{:deps {cheshire/cheshire {:mvn/version "5.12.0"}}
+ :paths ["src" "resources"]
+ :min-bb-version "1.3.0"
+ 
+ :tasks
+ {clean {:doc "Clean build artifacts"
+         :task (shell "rm -rf target .cpcache")}
+  
+  test {:doc "Run all tests"
+        :task (shell "clojure -M:test")}
+        
+  jar {:doc "Build library jar"
+       :depends [clean]
+       :task (shell "clojure -T:build jar")}
+  
+  install {:doc "Install jar to local Maven repository"
+           :depends [jar]
+           :task (shell "clojure -T:build install")}
+  
+  deploy {:doc "Deploy to Clojars"
+          :depends [jar]
+          :task (shell "clojure -T:build deploy")}
+  
+  show-version {:doc "Show current version"
+                :task (shell "cat VERSION")}}}
